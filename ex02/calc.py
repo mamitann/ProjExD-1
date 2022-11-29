@@ -5,6 +5,9 @@ import math
 def button_click(event):
     btn = event.widget
     num = btn["text"]
+    
+    
+
     if num == "=":
         pass
         siki = entry.get() # 数式の文字列
@@ -51,8 +54,10 @@ entry.grid(row=0, column=0, columnspan=3)
 
 r, c = 1, 0
 for num in range(9, -1, -1):
+    if num==0:
+        c = 2
     button = tk.Button(root, text=f"{num}", width=4, height=1, font=("", 30))
-    button.grid(row=r, column=c)
+    button.grid(row=r, column=2-c)
     button.bind("<1>", button_click)
     c += 1
     if c%3 == 0:
@@ -70,6 +75,3 @@ for ope in operators:
         c = 0
 root.mainloop()
 
-for i in range(5,1,-1):
-    x = i*(i-1)
-    print(x)
