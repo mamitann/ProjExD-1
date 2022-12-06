@@ -13,20 +13,21 @@ def main_proc():
     global cx, cy, mx, my
     if key == "Up":
         my -= 1
-    if key == "Down":
+    elif key == "Down":
         my += 1
-    if key == "Left":
+    elif key == "Left":
         mx -= 1
-    if key == "Right":
+    elif key == "Right":
         mx += 1
+
     if maze_lst[mx][my] == 1:
         if key == "Up":
             my += 1
-        if key == "Down":
+        elif key == "Down":
             my -= 1
-        if key == "Left":
+        elif key == "Left":
             mx += 1
-        if key == "Right":
+        elif key == "Right":
             mx -= 1
 
     cx,cy = mx*100+50, my*100+50
@@ -47,7 +48,7 @@ if __name__ == "__main__":
     mx, my = 1, 1
     cx, cy = mx*100+50, my*100+50
 
-    image = tk.PhotoImage(file="fig/8.png")
+    image = tk.PhotoImage(file="fig/0.png")
     #cx, cy = 300, 400
     canvas.create_image(cx, cy, image=image, tag="kokaton")
     key = ""
