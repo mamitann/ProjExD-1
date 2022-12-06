@@ -20,7 +20,7 @@ def main_proc():
     elif key == "Right":
         mx += 1
 
-    if maze_lst[mx][my] == 1:
+    if maze_lst[mx][my] == 1: #移動先が壁ならば
         if key == "Up":
             my += 1
         elif key == "Down":
