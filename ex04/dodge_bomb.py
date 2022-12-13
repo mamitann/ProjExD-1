@@ -31,23 +31,23 @@ def main():
 
     bomb_sfc = pg.Surface((20, 20))
     bomb_sfc.set_colorkey((0, 0, 0))
-    pg.draw.circle(bomb_sfc, (255, 0 , 0), (10, 10), 50)
+    pg.draw.circle(bomb_sfc, (255, 0 , 0), (10, 10), 50) #半径を50に変更
     bomb_rct = bomb_sfc.get_rect()
     bomb_rct.centerx = random.randint(0, scrn_rct.width)
     bomb_rct.centery = random.randint(0, scrn_rct.height)
     scrn_sfc.blit(bomb_sfc, bomb_rct)
 
-    bomb2_sfc = pg.Surface((20, 20))
+    bomb2_sfc = pg.Surface((20, 20))  #2つ目の爆弾を追加
     bomb2_sfc.set_colorkey((0, 0, 0))
-    pg.draw.circle(bomb2_sfc, (255, 255 , 0), (10, 20), 10)
+    pg.draw.circle(bomb2_sfc, (255, 255 , 0), (10, 20), 10) #色を(255,255,0)、半径を10に設定
     bomb2_rct = bomb2_sfc.get_rect()
     bomb2_rct.centerx = random.randint(0, scrn_rct.width)
     bomb2_rct.centery = random.randint(0, scrn_rct.height)
     scrn_sfc.blit(bomb2_sfc, bomb2_rct)
 
-    bomb3_sfc = pg.Surface((20, 20))
+    bomb3_sfc = pg.Surface((20, 20))  #3つ目の爆弾を追加
     bomb3_sfc.set_colorkey((0, 0, 0))
-    pg.draw.circle(bomb3_sfc, (255, 0 , 255), (10, 30), 100)
+    pg.draw.circle(bomb3_sfc, (255, 0 , 255), (10, 30), 100) #色を(255,0,255)、半径を100に設定
     bomb3_rct = bomb3_sfc.get_rect()
     bomb3_rct.centerx = random.randint(0, scrn_rct.width)
     bomb3_rct.centery = random.randint(0, scrn_rct.height)
@@ -61,8 +61,8 @@ def main():
     bomb4_rct.centery = random.randint(0, scrn_rct.height)
     scrn_sfc.blit(bomb4_sfc, bomb4_rct)'''
 
-    vx, vy = +1, +1
-    vx2, vy2 = +2, +2
+    vx, vy = +1, +1  #爆弾の動く速さをそれぞれ+1,+2,+3に設定
+    vx2, vy2 = +2, +2 
     vx3, vy3 = +3, +3
     '''vx4, vy4 = +2, +2'''
 
@@ -104,7 +104,7 @@ def main():
             return
 
 
-        bomb2_rct.move_ip(vx2, vy2)
+        bomb2_rct.move_ip(vx2, vy2)  #2つ目の爆弾に関する記述
         scrn_sfc.blit(bomb2_sfc, bomb2_rct)
         yoko, tate = check_bound(bomb2_rct, scrn_rct)
         vx2 *= yoko
@@ -113,7 +113,7 @@ def main():
         if tori_rct.colliderect(bomb2_rct):
             return 
 
-        bomb3_rct.move_ip(vx3, vy3)
+        bomb3_rct.move_ip(vx3, vy3)  #3つ目の爆弾に関する記述
         scrn_sfc.blit(bomb3_sfc, bomb3_rct)
         yoko, tate = check_bound(bomb3_rct, scrn_rct)
         vx3 *= yoko
