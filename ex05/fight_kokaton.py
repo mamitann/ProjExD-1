@@ -134,6 +134,15 @@ def main():
     # 練習５
     bkd = Bomb((255, 0, 0), 10, (+1, +1), scr)
     bkd.update(scr)
+    bombs = []
+    colors = ["red", "green", "blue", "yellow", "magenta"]
+    kkt = Bird("fig/6.png", 2.0, (900, 400))
+
+    for i in range(5):
+        color = colors[i]
+        vx = random.choice([-1,+1])
+        vy = random.choice([+1,-1])
+        bombs.append(Bomb(color, 10, (vx,vy),scr)) 
 
     boom_sound = load_sound("boom.wav")
     shoot_sound = load_sound("car_door.wav")
@@ -161,6 +170,13 @@ def main():
     # 練習２
     while True:        
         scr.blit()
+
+        
+        kkt.update(scr)
+        for bkt in bombs:
+            bkt.update(scr)
+            if kkt.rct.colliderect(bkt.rct):
+                return
 
         for event in pg.event.get():
             if event.type == pg.QUIT:
