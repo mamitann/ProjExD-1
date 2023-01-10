@@ -50,12 +50,15 @@ def calc_player(bar1_y, bar1_dy):
     return bar1_y
 
 # 得点の計算
-def calc_score(ball_x, score1, score2):
+def calc_score(ball_x, score1, score2, set1, set2, cir_lst, cir_xy, scr):
     if ball_x < 5.:
         score2 += 1
     if ball_x > 620.:
         score1 += 1
-    return score1, score2
+    if score1 == max or score2 == max:
+        set1, set2 = change_color(score1, score2, set1, set2, cir_lst, cir_xy, scr)
+        score1, score2 = 0, 0
+    return score1, score2, set1, set2
     
 
 def calc_set(score1, score2, set1, set2):
@@ -72,6 +75,23 @@ def calc_set(score1, score2, set1, set2):
         if set2 == 3:
             sys.exit()
     return score1, score2, set1, set2
+
+def change_color(score1, score2, set1, set2, cir_lst, cir_xy, scr):         #セット取得時の色変化
+    if score1 == max:
+        ct_sur = pygame.Surface((20,20))                                    
+        pygame.draw.circle(ct_sur, (0, 0, 255), (10, 10), 4)                #プレイヤーの色を青に変化
+        ct_sur.set_colorkey((0,0,0))
+        cir_lst[set1] = ct_sur
+        scr.blit(cir_lst[set1], cir_xy[set1])
+        set1 += 1
+    if score2 == max:
+        ct_sur = pygame.Surface((20,20))
+        pygame.draw.circle(ct_sur, (255, 0, 0), (10, 10), 4)                #AIの色を赤に変化
+        ct_sur.set_colorkey((0,0,0))
+        cir_lst[set2] = ct_sur
+        scr.blit(cir_lst[set2], cir_xy[set2])
+        set2 += 1
+    return set1, set2
 
 
 
@@ -103,6 +123,12 @@ def main():
     score1, score2 = 0,0
     set1, set2 = 0, 0
     ball_r = 7
+    ct_cir_xy = [(256, 7),
+                 (236, 7),
+                 (387, 7),
+                 (407, 7)
+                 ]
+    seta, setb = 0, len(ct_cir_xy) // 2
 
     # pygameの設定
     pygame.init()                                       # Pygameの初期化
@@ -136,6 +162,20 @@ def main():
     ball = circ_sur
     ball.set_colorkey((0,0,0))
 
+    #セットカウント
+    circle_lst = []
+    circle_frame_lst = []
+    for i in range(4):                                              #枠線と中身の初期設定
+        ct_sur = pygame.Surface((20,20))
+        pygame.draw.circle(ct_sur, (255, 255, 255), (10, 10), ball_r, width=1)
+        circle_frame = ct_sur
+        circle_frame.set_colorkey((0,0,0))
+        circle_frame_lst.append(ct_sur)
+        pygame.draw.circle(ct_sur, (0, 0, 0), (10, 10), 4)
+        circle = ct_sur
+        circle.set_colorkey((0,0,0))
+        circle_lst.append(circle)
+
     while (1):
         # 各オブジェクトの描画
         screen.blit(background,(0,0))
@@ -149,6 +189,10 @@ def main():
         screen.blit(font.render(str(set1), True,(255,255,0)),(250.,10.))
         screen.blit(font.render(str(set2), True,(255,255,0)),(400.,10.))
 
+        for i in range(4):                                          #セットカウントの表示
+            screen.blit(circle_lst[i], ct_cir_xy[i])                #中身の描画
+            screen.blit(circle_frame_lst[i], ct_cir_xy[i])          #枠の白丸の描画
+
 
         # プレイヤー側バーの位置
         bar1_dy = event(bar1_dy)
@@ -161,7 +205,7 @@ def main():
         ball_y += ball_vy * time_sec
 
         # 得点の計算
-        score1, score2 = calc_score(ball_x, score1, score2)
+        score1, score2, set1, set2 = calc_score(ball_x, score1, score2, seta, setb, circle_lst, ct_cir_xy, screen)
         
         score1, score2, set1, set2 = calc_set(score1, score2, set1, set2)
        
